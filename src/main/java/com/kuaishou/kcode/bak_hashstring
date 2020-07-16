@@ -1,0 +1,127 @@
+package com.kuaishou.kcode;
+
+import java.lang.reflect.Field;
+import java.util.ArrayList;
+
+class Node {
+    Node[] next = new Node[128];
+    int value = -1;
+    int fast_value = -1;
+    int cnt = 0;
+}
+
+public class HashString {
+
+    //    char[] value = new char[256];
+//    int length = 0;
+    int cnt = 0;
+    //    int ans_cnt = 0;
+    //    Node root = new Node();
+    Node root = new Node();
+
+
+    public void add3(String c, String b, String a) {
+//        this.length = 0;
+        int len_a = a.length();
+        int len_b = b.length();
+        int len_c = c.length();
+        Node now = root;
+        for (int i = 0; i < len_a; i++) {
+
+            if (now.next[a.charAt(i)] == null) now.next[a.charAt(i)] = new Node();
+            now = now.next[a.charAt(i)];
+        }
+        for (int i = 0; i < len_b; i++) {
+            if (now.next[b.charAt(i)] == null) now.next[b.charAt(i)] = new Node();
+            now = now.next[b.charAt(i)];
+        }
+        for (int i = 0; i < len_c; i++) {
+            if (now.next[c.charAt(i)] == null) now.next[c.charAt(i)] = new Node();
+            now = now.next[c.charAt(i)];
+        }
+        if (now.value == -1) {
+            now.value = cnt;
+
+            now = root;
+            for (int i = 0; i < len_a; i++) {
+                now = now.next[a.charAt(i)];
+                now.cnt += 1;
+                now.fast_value = cnt;
+            }
+            for (int i = 0; i < len_b; i++) {
+                now = now.next[b.charAt(i)];
+                now.cnt += 1;
+                now.fast_value = cnt;
+            }
+            for (int i = 0; i < len_c; i++) {
+                now = now.next[c.charAt(i)];
+                now.cnt += 1;
+                now.fast_value = cnt;
+            }
+
+            cnt += 1;
+        }
+
+    }
+
+
+    public int find3(String c, String b, String a) {
+//        this.length = 0;
+//        int len_a = a.length();
+//        int len_b = b.length();
+//        int len_c = c.length();
+////        for (int i = 0; i < len_a; i++) value[this.length++] = a.charAt(i);
+////        for (int i = 0; i < len_b; i++) value[this.length++] = b.charAt(i);
+////        for (int i = 0; i < len_c; i++) value[this.length++] = c.charAt(i);
+        int len_a = a.length();
+        int len_b = b.length();
+        int len_c = c.length();
+        Node now = root;
+        for (int i = 0; i < len_a; i++) {
+            now = now.next[a.charAt(i)];
+            if (now.cnt == 1) {
+//                System.out.println("boom a: " + i);
+                return now.fast_value;
+            }
+        }
+        for (int i = 0; i < len_b; i++) {
+            now = now.next[b.charAt(i)];
+            if (now.cnt == 1) {
+//                System.out.println("boom b: " + i);
+                return now.fast_value;
+            }
+        }
+        for (int i = 0; i < len_c; i++) {
+            now = now.next[c.charAt(i)];
+            if (now.cnt == 1) {
+//                System.out.println("boom c: " + i);
+                return now.fast_value;
+            }
+        }
+        return now.value;
+    }
+
+
+//    @Override
+//    public int hashCode() {
+////        int ret = 0;
+////        for (int i = 0; i < length; i++) {
+////            ret = ret * 31 + value[i];
+////        }
+////        return ret;
+//        return value;
+//    }
+//
+//    @Override
+//    public boolean equals(Object obj) {
+////        if (getClass() != obj.getClass()) return false;
+////        HashString hs = (HashString) obj;
+////        if (this.length != hs.length) return false;
+////        for (int i = 0; i <= this.length / 2; i++) {
+////            if (this.value[i] != hs.value[i]) return false;
+////            if (this.value[this.length - i - 1] != hs.value[this.length - i - 1]) return false;
+////        }
+////        return true;
+//        return value == ((HashString) obj).value;
+//    }
+}
